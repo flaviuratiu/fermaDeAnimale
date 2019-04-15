@@ -11,6 +11,26 @@
     <packaging>jar</packaging>
     <name>Farm Game</name>
 
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+
+    <build>
+        <!-- Enable replacement of placeholders delimited by @..@ in resource files. -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/static</directory>
+                <targetPath>static/</targetPath>
+            </resource>
+        </resources>
+
+    </build>
+
     <dependencies>
 
     </dependencies>
