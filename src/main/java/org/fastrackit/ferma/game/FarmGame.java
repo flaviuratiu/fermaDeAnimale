@@ -36,9 +36,7 @@ public class FarmGame {
             System.out.println("Am prins o exceptie: " + ve.getMessage());
         }
 
-
         ion.addAnimal(catel);
-
 
         ion.feedAllAnimals("varza");
         ion.putAllAnimalsToSleep();
