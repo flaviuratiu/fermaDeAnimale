@@ -10,7 +10,7 @@ import java.sql.*;
  */
 public class AnimalRepository {
 
-    private static final String URL = "http://localhost:5432/postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
 
     private static final String USERNAME = "postgres";
 
@@ -21,21 +21,21 @@ public class AnimalRepository {
 
 
         try {
+            Class.forName("org.postgresql.Driver");
+
+
             Connection conn = DriverManager.getConnection(URL, USERNAME,
                     PASSWORD);
-            // 4. create a query statement
             PreparedStatement st = conn.prepareStatement("SELECT name,porecla FROM animal");
-
-//            creatStatement();
-
-            // 5. execute a query
             ResultSet rs = st.executeQuery();
-
 
             System.out.println(rs);
 
         } catch (SQLException e) {
             System.out.println("Eroare de conexiune. "+ e);
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Eroare driver");
         }
 
         return null;
