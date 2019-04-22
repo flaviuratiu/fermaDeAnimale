@@ -35,4 +35,13 @@ public class Animal {
         System.out.println("Animalul "+ name +
                 " doarme "+ hoursOfSleep +" ore.");
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Animal{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", porecla='").append(porecla).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
