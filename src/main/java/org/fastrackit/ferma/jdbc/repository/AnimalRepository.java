@@ -2,11 +2,8 @@ package org.fastrackit.ferma.jdbc.repository;
 
 import org.fastrackit.ferma.domain.Animal;
 import org.fastrackit.ferma.exception.ValidationException;
-import org.fastrackit.ferma.jdbc.example.Users;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author ttritean
@@ -21,42 +18,91 @@ public class AnimalRepository {
     private static final String PASSWORD = "postgres";
 
 
-    public static Animal getAnimalById(Long id) throws ValidationException {
-
-
+    public static void deleteAnimalById(Long id) {
         try {
             Class.forName("org.postgresql.Driver");
-
-
             Connection conn = DriverManager.getConnection(URL, USERNAME,
                     PASSWORD);
-            PreparedStatement st = conn.prepareStatement("SELECT animal_type,age FROM animal where id=" +id);
+            PreparedStatement st = conn.prepareStatement(
+                    "delete from animal where id=?");
+            st.setLong(1, id);
+            st.execute();
+
+            st.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        }
+
+    public static void createAnimal(Animal toSaveAnimal) {
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(URL, USERNAME,
+                    PASSWORD);
+            PreparedStatement st = conn.prepareStatement(
+                    "insert into animal values(10, ?,?,2)");
+            st.setString(1, toSaveAnimal.getName());
+            st.setInt(2, toSaveAnimal.getAge());
+
+            st.execute();
+
+            st.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public static Animal getAnimalById(Long id) throws ValidationException {
+        try {
+            Animal resultat = null;
+            Class.forName("org.postgresql.Driver");
+            Connection conn = DriverManager.getConnection(URL, USERNAME,
+                    PASSWORD);
+            PreparedStatement st = conn.prepareStatement("SELECT animal_type,age FROM animal where id=" + id);
             ResultSet rs = st.executeQuery();
-
             while (rs.next()) {
-                Animal resultat = new Animal(rs.getString(1),null);
+                resultat = new Animal(rs.getString(1), null);
                 System.out.println(resultat);
-            }
 
-            // 7. close the objects
+            }
             rs.close();
             st.close();
             conn.close();
+            return resultat;
 
         } catch (SQLException e) {
-            System.out.println("Eroare de conexiune. "+ e);
-        } catch (ClassNotFoundException e) {
+            System.out.println("Eroare de conexiune. " + e);
+            return null;
 
+        } catch (ClassNotFoundException e) {
             System.out.println("Eroare driver");
+            return null;
+
         }
 
-        return null;
     }
 
     public static void main(String args[]) {
         try {
-            getAnimalById(1L);
-        }catch (ValidationException ve) {
+            getAnimalById(10L);
+
+            Animal animal = new Animal("vipera", "porecla");
+            animal.setAge(4);
+//            createAnimal(animal);
+
+            deleteAnimalById(10L);
+
+            getAnimalById(10L);
+
+        } catch (ValidationException ve) {
             System.out.println("Validation exception");
         }
     }

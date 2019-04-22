@@ -12,6 +12,7 @@ public class Animal {
 
     private String porecla;
 
+    private int age;
 
     public Animal() {
     }
@@ -22,6 +23,30 @@ public class Animal {
                     "the animal is invalid");
         }
         this.name = name;
+        this.porecla = porecla;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPorecla() {
+        return porecla;
+    }
+
+    public void setPorecla(String porecla) {
         this.porecla = porecla;
     }
 
